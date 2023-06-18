@@ -153,4 +153,4 @@ cython_debug/
 
 # carpeta de chats esto es privado
 /chats
-*.txt
+log.txt
