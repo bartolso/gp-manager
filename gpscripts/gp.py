@@ -5,7 +5,7 @@ import pandas as pd
 from datetime import date
 
 def read_txt():
-    f = open("chat.txt", "r", encoding='utf-8')
+    f = open("./chats/chat.txt", "r", encoding='utf-8')
 
     #Arreglar nombres
     data = f.read()

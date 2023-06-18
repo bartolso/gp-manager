@@ -22,10 +22,9 @@ MENSAJES = [
     'bondiarodalies😚😚\nA quina hora passa el tren de Sant Vicent de Calders🤨🤨 no puc esperar més😫😫\nNen, porto aquí mitja hora i això no ve saps😡😡'
 ]
 
-PROFETA = "Pablo"
 
-def read_txt():
-    f = open("chat.txt", "r", encoding='utf-8')
+def read_txt(profeta):
+    f = open("./chats/chat.txt", "r", encoding='utf-8')
 
     #Arreglar nombres
     data = f.read()
@@ -43,7 +42,7 @@ def read_txt():
     data = data.replace('- aitor:', '- Aitor:')
 
     message_string = '|'.join(MENSAJES)
-    messages = re.findall(f'(\d+/\d+/\d+, \d+:\d+\d+) - ({PROFETA}): (' + message_string + ')', data)
+    messages = re.findall(f'(\d+/\d+/\d+, \d+:\d+\d+) - ({profeta}): (' + message_string + ')', data)
 
     return messages
 

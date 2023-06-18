@@ -5,8 +5,8 @@ from datetime import date
 
 PROFETA = "Pablo"
 
-def read_txt():
-    f = open("chat.txt", "r", encoding='utf-8')
+def read_txt(profeta):
+    f = open("./chats/chat.txt", "r", encoding='utf-8')
 
     #Arreglar nombres
     data = f.read()
@@ -23,12 +23,12 @@ def read_txt():
     data = data.replace('- Joaquin:', '- Joaquín:')
     data = data.replace('- aitor:', '- Aitor:')
 
-    messages = re.findall(f'(\d+/\d+/\d+, \d+:\d+\d+) - ({PROFETA}): (drg$|Drg$)', data, re.MULTILINE)
+    messages = re.findall(f'(\d+/\d+/\d+, \d+:\d+\d+) - ({profeta}): (drg$|Drg$)', data, re.MULTILINE)
 
     return messages
 
 def make_dataframe():
-    df = pd.DataFrame(read_txt(),columns=['Time', 'Name', 'Message'])
+    df = pd.DataFrame(read_txt(profeta="Pablo"),columns=['Time', 'Name', 'Message'])
 
     df['Time'] = pd.to_datetime(df.Time, format='%d/%m/%y, %H:%M')
 
@@ -62,4 +62,4 @@ def make_dataframe():
 df_mbd = make_dataframe()
 
 if __name__ == '__main__':
-    print(read_txt())
+    print(read_txt(profeta="Pablo"))

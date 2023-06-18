@@ -1,3 +1,8 @@
+# GP-MANAGER
+# El código da puto asco, es un puto mess que sinceramente no sé ordenar
+# así que si alguien que sepa de verdad le echa un ojo quizá se vomita encima
+# Advertencia hecha...
+
 from PyQt6.QtWidgets import QApplication, QWidget, QMainWindow, QTableWidget, QTableWidgetItem
 from PyQt6.QtCore import QDate
 from PyQt6 import uic
@@ -47,14 +52,43 @@ class UI(QMainWindow):
 
         self.btn_run_query.clicked.connect(lambda: self.show_query(self.line_query.text()))
 
+        self.chk_enable_gp_btn_colors.clicked.connect(self.toggle_config_gp_btn_colors)
+
         self.calendarWidget.clicked[QDate].connect(self.selected_date_in_calendar)
 
-        self.btn_toggle_console.clicked.connect(self.toggle_console)
+        #Añadir datos desde txt
+        self.btn_preview_gp.clicked.connect(self.preview_txt_gp)
+        self.btn_preview_mbd.clicked.connect(self.preview_txt_mbd)
+        self.btn_preview_drg.clicked.connect(self.preview_txt_drg)
+
+        # ya no existe...
+        #self.btn_toggle_console.clicked.connect(self.toggle_console)
 
         self.tableWidget.cellChanged.connect(self.update_database_from_table)
 
         self.run_at_start()
+    
+    def toggle_config_gp_btn_colors(self):
+        print("test")
+        if self.chk_enable_gp_btn_colors.isChecked():
+            config.set('GP-MANAGER', 'display_gp_button_colors', 'True')
+            self.log("Colores activados. El rendimiento va a ser pésimo...")
+        else:
+            config.set('GP-MANAGER', 'display_gp_button_colors', 'False')
+            self.log("Colores desactivados")
 
+            self.btn_gp_laura.setStyleSheet("")
+            self.btn_gp_anton.setStyleSheet("")
+            self.btn_gp_miranda.setStyleSheet("")
+            self.btn_gp_nerea.setStyleSheet("")
+            self.btn_gp_paula.setStyleSheet("")
+            self.btn_gp_joaquin.setStyleSheet("")
+            self.btn_gp_sergio.setStyleSheet("")
+            self.btn_gp_diego.setStyleSheet("")
+            self.btn_gp_aina.setStyleSheet("")
+            self.btn_gp_aitor.setStyleSheet("")
+            self.btn_gp_pablo.setStyleSheet("")
+    
     def run_at_start(self):
         if config["DATABASE"]["auto_connect"] == "True":
             self.db_connect()
@@ -118,14 +152,17 @@ class UI(QMainWindow):
         except Exception as e:
             self.log(str(e))    
 
-    def log(self, text, show_in_console=False):
+    def log(self, text, pprint=True, save_to_log_file=True):
         self.logs.append(text + "\n")
         self.update()
-        print(text)
-    
-        with open("log.txt", "a", encoding="utf-8") as log:
-            dt_string = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-            log.write("[" + dt_string + "]" + " " + text + "\n")
+
+        if pprint:
+            print(text)
+
+        if save_to_log_file:
+            with open("log.txt", "a", encoding="utf-8") as log:
+                dt_string = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+                log.write("[" + dt_string + "]" + " " + text + "\n")
 
     #Modificar base de datos desde la tabla
     def update_database_from_table(self, row, column):
@@ -152,16 +189,21 @@ class UI(QMainWindow):
             self.lbl_db_status.setText("🟢 Conectado")
         else:
             self.lbl_db_status.setText("🔴 Desconectado")
+
         self.log_window.setText("".join(self.logs))
+        self.log_window2.setText("".join(self.logs))
 
         self.lbl_current_date.setText(self.current_date.strftime('%d/%m/%Y'))
 
         scrollbar = self.log_window.verticalScrollBar()
         scrollbar.setValue(scrollbar.maximum())
+        scrollbar2 = self.log_window2.verticalScrollBar()
+        scrollbar2.setValue(scrollbar.maximum())
 
         qdate_obj = QDate(self.current_date.year, self.current_date.month, self.current_date.day)
         self.calendarWidget.setSelectedDate(qdate_obj)
 
+        # esto es seguramente el peor código escrito jamás en la historia. hay que arreglarlo urgentemente destruye totalmente el rendimiento
         if config["GP-MANAGER"]["display_gp_button_colors"] == "True":
             # ACTUALIZAR BOTONES GP
             current_date = self.current_date.strftime('%Y-%m-%d')
@@ -316,6 +358,21 @@ class UI(QMainWindow):
             else:
                 self.btn_gp_paula.setStyleSheet("")
 
+            #pablo
+            gp_id_pablo = self.get_gp_id_by_player_and_date(11, current_date)
+            if gp_id_pablo:
+                if len(gp_id_pablo) == 1:
+                    if self.is_this_gp_valid(gp_id_pablo[0][0]) == True:
+                        self.btn_gp_pablo.setStyleSheet("background-color : green")
+                    if self.is_this_gp_valid(gp_id_pablo[0][0]) == False:
+                        self.btn_gp_pablo.setStyleSheet("background-color : red")
+                    if self.is_this_gp_valid(gp_id_pablo[0][0]) == "?":
+                        self.btn_gp_pablo.setStyleSheet("background-color : purple")
+                else:
+                    self.btn_gp_pablo.setStyleSheet("background-color : orange")
+            else:
+                self.btn_gp_pablo.setStyleSheet("")
+
     def db_full_update(self):
         # actualizar todo y rellenar ids.
         self.update_db_mbd
@@ -347,7 +404,22 @@ class UI(QMainWindow):
 
         self.update()
 
-    def update_db_gp(self, date_from=""):
+    def preview_txt_gp(self):
+        data = gpscripts.gp.read_txt()
+        data_string = '\n'.join([' '.join(t) for t in data])
+        self.preview_window.setText(data_string)
+
+    def preview_txt_mbd(self):
+        data = gpscripts.mbd.read_txt(profeta=self.le_profeta_mbd.text())
+        data_string = '\n'.join([' '.join(t) for t in data])
+        self.preview_window.setText(data_string)
+
+    def preview_txt_drg(self):
+        data = gpscripts.drg.read_txt(profeta=self.le_profeta_drg.text())
+        data_string = '\n'.join([' '.join(t) for t in data])
+        self.preview_window.setText(data_string)
+
+    def update_db_gp(self):
         gp_messages = gpscripts.gp.read_txt()
 
         for message in gp_messages:
@@ -378,6 +450,8 @@ class UI(QMainWindow):
                 msg_player = 9
             if msg_player == "Paula":
                 msg_player = 10
+            if msg_player == "Pablo":
+                msg_player = 11
 
             msg_message = message[2]
 
@@ -403,15 +477,16 @@ class UI(QMainWindow):
             
         self.log("Finalizado")
         
-    def update_db_mbd(self, date_from=""):
-        mbd_messages = gpscripts.mbd.read_txt()
+    def update_db_mbd(self):
+        profeta = self.le_profeta_mbd.text()
+        mbd_messages = gpscripts.mbd.read_txt(profeta)
 
         for message in mbd_messages:
             date_and_time = message[0].split(", ")
 
             msg_date = date_and_time[0]
             msg_time = date_and_time[1]
-            msg_player = message[1] # irrelevante, siempre es pablo...
+            msg_player = message[1] # el profeta
             msg_message = message[2]
 
             date_obj = datetime.strptime(msg_date, '%d/%m/%y')
@@ -422,7 +497,8 @@ class UI(QMainWindow):
             if self.db_is_connected:
                 try:
                     mycursor = mydb.cursor()
-                    mycursor.execute("INSERT INTO `gpdb`.`mbd` (`dia`, `hora`, `mensaje`) VALUES (%s, %s, %s);", (msg_date, msg_time, msg_message))
+                    # jugador_id es el profeta. en la base de datos tanto profeta como jugador se consideran jugador
+                    mycursor.execute("INSERT INTO `gpdb`.`mbd` (`dia`, `hora`, `mensaje`, `jugador_id`) VALUES (%s, %s, %s, %s);", (msg_date, msg_time, msg_message, msg_player))
                     mydb.commit()
                 except Exception as e:
                     print(e)   
@@ -431,7 +507,7 @@ class UI(QMainWindow):
 
         self.log("Finalizado")
 
-    def update_db_drg(self, date_from=""):
+    def update_db_drg(self):
         drg_messages = gpscripts.drg.read_txt()
 
         for message in drg_messages:
@@ -510,9 +586,7 @@ class UI(QMainWindow):
             print("else")
             return False
 
-
     def toggle_gp_valid(self, player_id):
-
         current_date = self.current_date.strftime('%Y-%m-%d')
         query = "SELECT gpdb.gp.valido FROM gpdb.gp WHERE gpdb.gp.dia = '" + current_date + "' AND gpdb.gp.jugador_id = " + player_id
 
@@ -531,7 +605,7 @@ class UI(QMainWindow):
 
         except TypeError as e:
             #self.log(str(e))
-            self.log("Estás intentando validar un GP no existente")
+            self.log("Estás intentando validar un GP no existente. Puedes crear un G.P. en la pestaña Añadir datos")
 
 
 
@@ -539,7 +613,7 @@ class UI(QMainWindow):
         self.update()
 
 app = QApplication([])
-app.setStyle("Fusion")
+#app.setStyle("Windows")
 qdarktheme.setup_theme()
 window = UI()
 window.show()
