@@ -13,6 +13,7 @@ import configparser
 import queries
 
 import gpscripts.gp, gpscripts.mbd, gpscripts.drg, gpscripts.config
+from gpv import GPV
 
 class UI(QMainWindow):
     def __init__(self):
@@ -607,7 +608,12 @@ class UI(QMainWindow):
             #self.log(str(e))
             self.log("Estás intentando validar un GP no existente. Puedes crear un G.P. en la pestaña Añadir datos")
 
-
+    def calculate_gpv(self):
+        gp_time = self.te_gp_time.time()
+        mbd_time = self.te_mbd_time.time()
+        drg_time = self.te_drg_time.time()
+        streak = 0
+        rank = 0
 
         self.move_table()
         self.update()
