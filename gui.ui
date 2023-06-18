@@ -1401,7 +1401,7 @@ color: rgb(255, 255, 255);</string>
            </widget>
           </item>
           <item>
-           <widget class="QTimeEdit" name="timeEdit"/>
+           <widget class="QTimeEdit" name="te_gp_time"/>
           </item>
           <item>
            <widget class="QLabel" name="label_32">
@@ -1411,7 +1411,7 @@ color: rgb(255, 255, 255);</string>
            </widget>
           </item>
           <item>
-           <widget class="QTimeEdit" name="timeEdit_2"/>
+           <widget class="QTimeEdit" name="te_mbd_time"/>
           </item>
           <item>
            <widget class="QLabel" name="label_33">
@@ -1421,7 +1421,7 @@ color: rgb(255, 255, 255);</string>
            </widget>
           </item>
           <item>
-           <widget class="QTimeEdit" name="timeEdit_3"/>
+           <widget class="QTimeEdit" name="te_drg_time"/>
           </item>
           <item>
            <widget class="QLabel" name="label_34">
@@ -1431,7 +1431,7 @@ color: rgb(255, 255, 255);</string>
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="spinBox"/>
+           <widget class="QSpinBox" name="sb_rank"/>
           </item>
           <item>
            <widget class="QLabel" name="label_35">
@@ -1441,7 +1441,7 @@ color: rgb(255, 255, 255);</string>
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="spinBox_2"/>
+           <widget class="QSpinBox" name="sb_streak"/>
           </item>
           <item>
            <spacer name="verticalSpacer_6">
@@ -1457,6 +1457,13 @@ color: rgb(255, 255, 255);</string>
            </spacer>
           </item>
           <item>
+           <widget class="QPushButton" name="btn_calculate_gpv">
+            <property name="text">
+             <string>Calcular GPV</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QLabel" name="label_36">
             <property name="text">
              <string>GPV:</string>
@@ -1464,11 +1471,70 @@ color: rgb(255, 255, 255);</string>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="gpv">
+           <widget class="QLabel" name="lbl_gpv_value">
             <property name="text">
-             <string>gpv</string>
+             <string>gpv_value</string>
             </property>
            </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_12">
+          <item>
+           <widget class="QLabel" name="label_37">
+            <property name="text">
+             <string>PUNTUACIONES</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lbl_V1">
+            <property name="text">
+             <string>V1:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lbl_V2">
+            <property name="text">
+             <string>V2:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lbl_V3">
+            <property name="text">
+             <string>V3:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lbl_D1">
+            <property name="text">
+             <string>D1:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lbl_D2">
+            <property name="text">
+             <string>D2:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_7">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
           </item>
          </layout>
         </item>

@@ -1,4 +1,4 @@
-TEST = True
+TEST = False
 
 if TEST:
     import puntuaciones_test as puntuaciones
@@ -7,9 +7,15 @@ else:
 
 class GPV:
     def __init__(self, hora_mbd, hora_gp, hora_drg, puesto, racha):
-        self.hora_mbd = hora_mbd
-        self.hora_gp = hora_gp
-        self.hora_drg = hora_drg
+        if __name__ == "__main__":
+            self.hora_mbd = hora_mbd
+            self.hora_gp = hora_gp
+            self.hora_drg = hora_drg
+        else:
+            self.hora_mbd = hour_to_minutes(hora_mbd)
+            self.hora_gp = hour_to_minutes(hora_gp)
+            self.hora_drg = hour_to_minutes(hora_drg)
+            
         self.puesto = puesto
         self.racha = racha
 
@@ -17,6 +23,13 @@ class GPV:
         closest_value = min(values, key=lambda x: abs(x - my_value))
 
         return closest_value
+    
+    def hour_to_minutes(hour):
+        hour_parts = hour.split(":")
+        hours = int(hour_parts[0])
+        minutes = int(hour_parts[1])
+        total_minutes = (hours * 60) + minutes
+        return total_minutes
     
     def get_tiempo_respuesta_points(self):
         # hora mbd, hora gp
@@ -84,24 +97,24 @@ def hour_to_minutes(hour):
     
 def main():
     # VALORES
-    hora_mbd = "1:00"
-    hora_gp = "10:10"
-    hora_drg = "12:30"
-    puesto = 1
-    racha = 1
+    hora_mbd_str = "8:00"
+    hora_gp_str = "10:00"
+    hora_drg_str = "12:30"
+    puesto = 5
+    racha = 10
 
-    hora_mbd = hour_to_minutes(hora_mbd)
-    hora_gp = hour_to_minutes(hora_gp)
-    hora_drg = hour_to_minutes(hora_drg)
+    hora_mbd = hour_to_minutes(hora_mbd_str)
+    hora_gp = hour_to_minutes(hora_gp_str)
+    hora_drg = hour_to_minutes(hora_drg_str)
 
     gp = GPV(hora_mbd, hora_gp, hora_drg, puesto, racha)
 
     print("-----------------------")
     print("DATOS DEL GP")
     print()
-    print("Hora del G.P.: " + str(hora_gp))
-    print("Hora del M.B.D.: " + str(hora_mbd))
-    print("Hora del Drg: " + str(hora_drg))
+    print("Hora del G.P.: " + str(hora_gp_str))
+    print("Hora del M.B.D.: " + str(hora_mbd_str))
+    print("Hora del Drg: " + str(hora_drg_str))
     print("Puesto: " + str(puesto))
     print("Racha: " + str(racha))
     print("-----------------------")

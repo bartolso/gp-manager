@@ -1,6 +1,7 @@
 #los valores que están puestos como X: Y, son básicamente por eemplo en el caso de V1 (tiempo de respuesta)
 #minutos de tiempo de respuesta (X) y puntos a dar (Y)
 
+# TIEMPO DE RESPUESTA
 V1 = {
     1: 100,
     2: 95,
@@ -37,6 +38,7 @@ V1 = {
     1440: 0,
 }
 
+# PUESTO
 V2 = {
     1: 100,
     2: 75,
@@ -50,6 +52,7 @@ V2 = {
     10: 0,
 }
 
+# RACHA
 V3 = {
     1: 0,
     2: 3,
@@ -83,7 +86,7 @@ V3 = {
     30: 95,
     31: 100,
 }
-
+# DIFICULTAD TIEMPO ENTRE MBD Y DRG
 D1 = {
     0: 100,
     1: 97,
@@ -113,6 +116,7 @@ D1 = {
     1440: 0,
 }
 
+# DIFICULTAD HORA DEL MBD
 D2 = {
     0: 10,
     60: 40,
@@ -141,6 +145,7 @@ D2 = {
     1140: 10,
 }
 
+# MULTIPLICADORES
 mV1 = 1
 mV2 = 1
 mV3 = 1

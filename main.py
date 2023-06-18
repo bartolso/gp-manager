@@ -62,6 +62,8 @@ class UI(QMainWindow):
         self.btn_preview_mbd.clicked.connect(self.preview_txt_mbd)
         self.btn_preview_drg.clicked.connect(self.preview_txt_drg)
 
+        self.btn_calculate_gpv.clicked.connect(self.calculate_gpv_manual)
+
         # ya no existe...
         #self.btn_toggle_console.clicked.connect(self.toggle_console)
 
@@ -608,15 +610,27 @@ class UI(QMainWindow):
             #self.log(str(e))
             self.log("Estás intentando validar un GP no existente. Puedes crear un G.P. en la pestaña Añadir datos")
 
-    def calculate_gpv(self):
-        gp_time = self.te_gp_time.time()
-        mbd_time = self.te_mbd_time.time()
-        drg_time = self.te_drg_time.time()
-        streak = 0
-        rank = 0
-
         self.move_table()
         self.update()
+
+    def calculate_gpv_manual(self):
+        gp_time = self.te_gp_time.time().toString("HH:mm")
+        mbd_time = self.te_mbd_time.time().toString("HH:mm")
+        drg_time = self.te_drg_time.time().toString("HH:mm")
+        streak = self.sb_streak.value()
+        rank = self.sb_rank.value()
+
+        gpv = GPV(hora_mbd=mbd_time, hora_drg=drg_time, hora_gp=gp_time, racha=streak, puesto=rank)
+
+        self.lbl_V1.setText("V1 Tiempo de respuesta: " + str(gpv.get_tiempo_respuesta_points()))
+        self.lbl_V2.setText("V2 Puesto: " + str(gpv.get_puesto_points()))
+        self.lbl_V3.setText("V3 Racha: " + str(gpv.get_racha_points()))
+        self.lbl_D1.setText("D1 Dificultad tiempo M.B.D. - Drg: " + str(gpv.get_mbd_drg_difficulty()))
+        self.lbl_D2.setText("D2 Dificultad hora M.B.D.: " + str(gpv.get_mbd_time_difficulty()))
+
+        self.lbl_gpv_value.setText(str(gpv.get_gpv()))
+
+        
 
 app = QApplication([])
 #app.setStyle("Windows")
