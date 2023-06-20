@@ -54,7 +54,7 @@ def make_dataframe():
 
     return df
 
-df_gp = make_dataframe()
+#df_gp = make_dataframe()
 
 if __name__ == '__main__':
     #print(df_gp.tail(60))
