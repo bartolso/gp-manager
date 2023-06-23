@@ -1,8 +1,18 @@
-# GP-MANAGER
-# El código da puto asco, es un puto mess que sinceramente no sé ordenar
-# así que si alguien que sepa de verdad le echa un ojo quizá se vomita encima
-# Advertencia hecha...
+'''
 
+GP-MANAGER
+El código da puto asco, es un puto mess que sinceramente no sé ordenar
+así que si alguien que sepa de verdad le echa un ojo quizá se vomita encima
+Advertencia hecha...
+
+QUERESERES
+TODO: añadir label con la dificultad día en la vista general
+TODO: recuento de notas mensual
+TODO: arreglar el conectarse al servidor que no sea una mierda vaya
+
+HAY NO SE QUE PROBLEMA EN GPV.PY EL D1 NO SE ESTÁ CALCULANDO BIEN HAY QUE MIRARLO URGENTE
+
+'''
 from PyQt6.QtWidgets import QApplication, QWidget, QMainWindow, QTableWidget, QTableWidgetItem
 from PyQt6.QtCore import QDate, QThread, pyqtSignal
 from PyQt6 import uic
@@ -52,6 +62,7 @@ class UI(QMainWindow):
         self.btn_show_gp_table.clicked.connect(self.show_gp_table)
         self.btn_show_mbd_table.clicked.connect(self.show_mbd_table)
         self.btn_show_drg_table.clicked.connect(self.show_drg_table)
+        self.btn_show_faltas_table.clicked.connect(self.show_faltas_table)
 
         self.btn_move_back.clicked.connect(self.move_back)
         self.btn_move_forward.clicked.connect(self.move_forward)
@@ -83,8 +94,67 @@ class UI(QMainWindow):
 
         self.btn_update_ids.clicked.connect(self.update_table_ids)
 
+        # PESTAÑA AÑADIR DATOS
+        self.btn_ad_gp.clicked.connect(self.add_gp)
+        self.btn_ad_mbd.clicked.connect(self.add_mbd)
+        self.btn_ad_drg.clicked.connect(self.add_drg)
+        self.btn_ad_falta.clicked.connect(self.add_falta)
+
         self.run_at_start()
+
+    # PESTAÑA AÑADIR DATOS
+    def add_gp(self):
+        datetime = self.dt_ad_gp_datetime.dateTime()
+        dt_date = datetime.toString("yyyy-MM-dd")
+        dt_time = datetime.toString("hh:mm")
+        player = self.get_player_id_from_name(self.le_ad_gp_jugador.text())
+        message = self.le_ad_gp_mensaje.text()
+
+        mycursor = mydb.cursor()
+        mycursor.execute(f"INSERT INTO `gpdb`.`gp` (`persona_id`, `dia`, `hora`, `mensaje`) VALUES ('{player}', '{dt_date}', '{dt_time}', '{message}')")
+
+        mydb.commit()
+        self.log("G.P. añadido")
+        
+    def add_mbd(self):
+        datetime = self.dt_ad_mbd_datetime.dateTime()
+        dt_date = datetime.toString("yyyy-MM-dd")
+        dt_time = datetime.toString("hh:mm")
+        profeta = self.get_player_id_from_name(self.le_ad_mbd_profeta.text())
+        message = self.le_ad_mbd_texto.text()
+
+        mycursor = mydb.cursor()
+        mycursor.execute("INSERT INTO `gpdb`.`mbd` (`dia`, `hora`, `mensaje`, `persona_id`) VALUES (%s, %s, %s, %s);", (dt_date, dt_time, message, profeta))
+
+        mydb.commit()
+        self.log("M.B.D. añadido")
+
+    def add_drg(self):
+        datetime = self.dt_ad_drg_datetime.dateTime()
+        dt_date = datetime.toString("yyyy-MM-dd")
+        dt_time = datetime.toString("hh:mm")
+        profeta = self.get_player_id_from_name(self.le_ad_drg_profeta.text())
+        message = self.le_ad_drg_texto.text()
+
+        mycursor = mydb.cursor()
+        mycursor.execute("INSERT INTO `gpdb`.`mbd` (`dia`, `hora`, `mensaje`, `persona_id`) VALUES (%s, %s, %s, %s);", (dt_date, dt_time, message, profeta))
+
+        mydb.commit()
+        self.log("Drg añadido")
+
+    def add_falta(self):
+        datetime = self.dt_ad_drg_datetime.dateTime()
+        dt_date = datetime.toString("yyyy-MM-dd")
+        dt_time = datetime.toString("hh:mm")
+        player = self.get_player_id_from_name(self.le_ad_faltas_jugador.text())
+        f_type = self.le_ad_faltas_tipo.text()
+        f_motivo = self.le_ad_faltas_motivo.text()
+
+        mycursor = mydb.cursor()
+        mycursor.execute("INSERT INTO `gpdb`.`faltas` (`dia`, `hora`, `persona_id`, `tipo`, `motivo`) VALUES (%s, %s, %s, %s, %s);", (dt_date, dt_time, player, f_type, f_motivo))
     
+        mydb.commit()
+        self.log("Falta añadida")
     def show_current_mbd(self):
         current_date_formatted = self.current_date.strftime('%Y-%m-%d')
         self.show_query(f"SELECT * FROM gpdb.mbd WHERE dia = '{current_date_formatted}'")
@@ -112,6 +182,12 @@ class UI(QMainWindow):
         self.show_query("SELECT * FROM gpdb.drg")
         self.log("Mostrando tabla de Drg")
         self.gb_tabla.setTitle("Todos los Drg")
+
+    def show_faltas_table(self):
+        self.current_db_table = "faltas"
+        self.show_query("SELECT * FROM gpdb.faltas")
+        self.log("Mostrando tabla de Faltas")
+        self.gb_tabla.setTitle("Todas las faltas")
     
     def toggle_config_gp_btn_colors(self):
         print("test")
@@ -243,6 +319,7 @@ class UI(QMainWindow):
         self.log_window2.setText("".join(self.logs))
         self.log_window_notas.setText("".join(self.logs))
         self.log_window_anadir_datos.setText("".join(self.logs))
+        self.log_window_ad.setText("".join(self.logs))
 
         self.lbl_current_date.setText(self.current_date.strftime('%d/%m/%Y'))
 
@@ -257,6 +334,9 @@ class UI(QMainWindow):
 
         scrollbar_anadir_datos = self.log_window_anadir_datos.verticalScrollBar()
         scrollbar_anadir_datos.setValue(scrollbar.maximum())
+
+        scrollbar_ad = self.log_window_ad.verticalScrollBar()
+        scrollbar_ad.setValue(scrollbar.maximum())
 
         qdate_obj = QDate(self.current_date.year, self.current_date.month, self.current_date.day)
         self.calendarWidget.setSelectedDate(qdate_obj)
@@ -470,17 +550,41 @@ class UI(QMainWindow):
         self.update()
 
     def preview_txt_gp(self):
-        data = gpscripts.gp.read_txt()
+        if self.chk_adt_all_range.isChecked():
+            data = gpscripts.gp.read_txt()
+        else:
+            # rangos
+            start_date = self.de_adt_start_date.date().toString("yy/M/d")
+            end_date = self.de_adt_end_date.date().toString("yy/M/d")
+
+            data = gpscripts.gp.read_txt(all_dates=False, start_date=start_date, end_date=end_date)
+
         data_string = '\n'.join([' '.join(t) for t in data])
         self.preview_window.setText(data_string)
 
     def preview_txt_mbd(self):
-        data = gpscripts.mbd.read_txt(profeta=self.le_profeta_mbd.text())
+        if self.chk_adt_all_range.isChecked():
+            data = gpscripts.mbd.read_txt(profeta=self.le_profeta_mbd.text())
+        else:
+            # rangos
+            start_date = self.de_adt_start_date.date().toString("yy/M/d")
+            end_date = self.de_adt_end_date.date().toString("yy/M/d")
+
+            data = gpscripts.mbd.read_txt(profeta=self.le_profeta_mbd.text(), all_dates=False, start_date=start_date, end_date=end_date)
+
         data_string = '\n'.join([' '.join(t) for t in data])
         self.preview_window.setText(data_string)
 
     def preview_txt_drg(self):
-        data = gpscripts.drg.read_txt(profeta=self.le_profeta_drg.text())
+        if self.chk_adt_all_range.isChecked():
+            data = gpscripts.drg.read_txt(profeta=self.le_profeta_drg.text())
+        else:
+            # rangos
+            start_date = self.de_adt_start_date.date().toString("yy/M/d")
+            end_date = self.de_adt_end_date.date().toString("yy/M/d")
+
+            data = gpscripts.drg.read_txt(profeta=self.le_profeta_drg.text(), all_dates=False, start_date=start_date, end_date=end_date)
+
         data_string = '\n'.join([' '.join(t) for t in data])
         self.preview_window.setText(data_string)
 
@@ -509,7 +613,14 @@ class UI(QMainWindow):
             return 11
 
     def update_db_gp(self):
-        gp_messages = gpscripts.gp.read_txt()
+        if self.chk_adt_all_range.isChecked():
+            gp_messages = gpscripts.gp.read_txt()
+        else:
+            # rangos
+            start_date = self.de_adt_start_date.date().toString("yy/M/d")
+            end_date = self.de_adt_end_date.date().toString("yy/M/d")
+
+            gp_messages = gpscripts.gp.read_txt(all_dates=False, start_date=start_date, end_date=end_date)
 
         for message in gp_messages:
             date_and_time = message[0].split(", ")
@@ -519,28 +630,7 @@ class UI(QMainWindow):
             msg_player = message[1] 
             
             # horrible
-            if msg_player == "Joaquin":
-                msg_player = 1
-            if msg_player == "Sergio":
-                msg_player = 2
-            if msg_player == "Miranda":
-                msg_player = 3
-            if msg_player == "Anton":
-                msg_player = 4
-            if msg_player == "Laura":
-                msg_player = 5
-            if msg_player == "Aitor":
-                msg_player = 6
-            if msg_player == "Aina":
-                msg_player = 7
-            if msg_player == "Diego":
-                msg_player = 8
-            if msg_player == "Nerea":
-                msg_player = 9
-            if msg_player == "Paula":
-                msg_player = 10
-            if msg_player == "Pablo":
-                msg_player = 11
+            msg_player = self.get_player_id_from_name(msg_player)
 
             msg_message = message[2]
 
@@ -567,7 +657,14 @@ class UI(QMainWindow):
         self.log("Finalizado")
         
     def update_db_mbd(self):
-        mbd_messages = gpscripts.mbd.read_txt(profeta=self.le_profeta_mbd.text())
+        if self.chk_adt_all_range.isChecked():
+            mbd_messages = gpscripts.mbd.read_txt(profeta=self.le_profeta_mbd.text())
+        else:
+            # rangos
+            start_date = self.de_adt_start_date.date().toString("yy/M/d")
+            end_date = self.de_adt_end_date.date().toString("yy/M/d")
+
+            mbd_messages = gpscripts.mbd.read_txt(profeta=self.le_profeta_mbd.text(), all_dates=False, start_date=start_date, end_date=end_date)
 
         for message in mbd_messages:
             date_and_time = message[0].split(", ")
@@ -604,7 +701,14 @@ class UI(QMainWindow):
         self.log("Finalizado")
 
     def update_db_drg(self):
-        drg_messages = gpscripts.drg.read_txt(profeta=self.le_profeta_drg.text())
+        if self.chk_adt_all_range.isChecked():
+            drg_messages = gpscripts.drg.read_txt(profeta=self.le_profeta_drg.text())
+        else:
+            # rangos
+            start_date = self.de_adt_start_date.date().toString("yy/M/d")
+            end_date = self.de_adt_end_date.date().toString("yy/M/d")
+
+            drg_messages = gpscripts.drg.read_txt(profeta=self.le_profeta_drg.text(), all_dates=False, start_date=start_date, end_date=end_date)
 
         for message in drg_messages:
             date_and_time = message[0].split(", ")

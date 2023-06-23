@@ -2,7 +2,7 @@
 
 import re
 import pandas as pd
-from datetime import date
+from datetime import datetime
 
 MENSAJES = [
     '¡Muy Buenos Días a Todos! Recuerden que para tener un día extraordinario es necesario hacer un gran esfuerzo ¡Que tengan una mañana tranquila y llena de oportunidades!',
@@ -23,7 +23,7 @@ MENSAJES = [
 ]
 
 
-def read_txt(profeta):
+def read_txt(profeta="", all_dates=True, start_date="", end_date=""):
     f = open("./chats/chat.txt", "r", encoding='utf-8')
 
     #Arreglar nombres
@@ -42,9 +42,22 @@ def read_txt(profeta):
     data = data.replace('- aitor:', '- Aitor:')
 
     message_string = '|'.join(MENSAJES)
-    messages = re.findall(f'(\d+/\d+/\d+, \d+:\d+\d+) - ({profeta}): (' + message_string + ')', data)
+    #message_string = [""]
+    messages = re.findall(f'(\d+/\d+/\d+, \d+:\d+\d+) - ({profeta}): (.*bondiarodalies.*$|.*etc.*|{message_string})', data)
 
-    return messages
+    if all_dates:
+        return messages
+    else:
+        start_date = datetime.strptime(start_date, "%y/%m/%d").date()
+        end_date = datetime.strptime(end_date, "%y/%m/%d").date()
+
+        filtered_messages = []
+        for date_str, *rest in messages:
+            date = datetime.strptime(date_str, "%d/%m/%y, %H:%M").date()
+            if start_date <= date <= end_date:
+                filtered_messages.append((date_str, *rest))
+
+        return filtered_messages
 
 def make_dataframe():
     df = pd.DataFrame(read_txt(),columns=['Time', 'Name', 'Message'])
@@ -76,4 +89,4 @@ def make_dataframe():
     return df
 
 if __name__ == '__main__':
-    print(read_txt())
+    print(read_txt(profeta="Pablo", all_dates=False, start_date="23/1/1", end_date="23/1/1"))

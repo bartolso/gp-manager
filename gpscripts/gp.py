@@ -2,9 +2,9 @@
 
 import re
 import pandas as pd
-from datetime import date
+from datetime import datetime
 
-def read_txt():
+def read_txt(start_date="", end_date="", all_dates=True):
     f = open("./chats/chat.txt", "r", encoding='utf-8')
 
     #Arreglar nombres
@@ -24,7 +24,19 @@ def read_txt():
 
     messages = re.findall('(\d+/\d+/\d+, \d+:\d+\d+) - (.*?): (gp$|Gp$|GP$)', data, re.MULTILINE)
 
-    return messages
+    if all_dates:
+        return messages
+    else:
+        start_date = datetime.strptime(start_date, "%y/%m/%d").date()
+        end_date = datetime.strptime(end_date, "%y/%m/%d").date()
+
+        filtered_messages = []
+        for date_str, *rest in messages:
+            date = datetime.strptime(date_str, "%d/%m/%y, %H:%M").date()
+            if start_date <= date <= end_date:
+                filtered_messages.append((date_str, *rest))
+
+        return filtered_messages
 
 def make_dataframe():
     df = pd.DataFrame(read_txt(),columns=['Time', 'Name', 'Message'])
@@ -58,4 +70,4 @@ def make_dataframe():
 
 if __name__ == '__main__':
     #print(df_gp.tail(60))
-    print(read_txt()[0])
+    print(read_txt(all_dates=False, start_date="23/1/1", end_date="23/2/1"))

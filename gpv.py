@@ -66,6 +66,7 @@ class GPV:
 
         legal_time = self.hora_drg - self.hora_mbd
 
+        print("legal time " + str(legal_time))
         indexes_list = list(puntuaciones.D1.keys())
         mbd_drg_difficulty_closest = self.find_closest_value(legal_time, indexes_list)
         points = puntuaciones.D1[mbd_drg_difficulty_closest]
@@ -98,8 +99,8 @@ def hour_to_minutes(hour):
 def main():
     # VALORES
     hora_mbd_str = "8:00"
-    hora_gp_str = "10:00"
-    hora_drg_str = "12:30"
+    hora_gp_str = "8:00"
+    hora_drg_str = "9:00"
     puesto = 5
     racha = 10
 

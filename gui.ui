@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1049</width>
-    <height>706</height>
+    <width>1081</width>
+    <height>709</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -72,7 +72,7 @@
          </size>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <property name="tabSpacing">
          <number>7</number>
@@ -83,7 +83,7 @@
            <x>0</x>
            <y>0</y>
            <width>200</width>
-           <height>465</height>
+           <height>468</height>
           </rect>
          </property>
          <property name="maximumSize">
@@ -223,8 +223,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>200</width>
-           <height>465</height>
+           <width>98</width>
+           <height>28</height>
           </rect>
          </property>
          <property name="maximumSize">
@@ -294,8 +294,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>200</width>
-           <height>465</height>
+           <width>98</width>
+           <height>28</height>
           </rect>
          </property>
          <attribute name="label">
@@ -357,7 +357,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>110</y>
+            <y>140</y>
             <width>93</width>
             <height>20</height>
            </rect>
@@ -366,14 +366,27 @@
            <string>Editar tabla</string>
           </property>
          </widget>
+         <widget class="QPushButton" name="btn_show_faltas_table">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>110</y>
+            <width>91</width>
+            <height>28</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Faltas</string>
+          </property>
+         </widget>
         </widget>
         <widget class="QWidget" name="page_7">
          <property name="geometry">
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>200</width>
-           <height>465</height>
+           <width>98</width>
+           <height>28</height>
           </rect>
          </property>
          <attribute name="label">
@@ -422,7 +435,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -867,6 +880,20 @@
            </spacer>
           </item>
           <item>
+           <widget class="QLabel" name="label_7">
+            <property name="text">
+             <string>Dificultad del día:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_8">
+            <property name="text">
+             <string>GPV promedio:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QLabel" name="lbl_day_comments">
             <property name="text">
              <string>Comentarios:</string>
@@ -901,7 +928,7 @@
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_2">
              <item>
-              <widget class="QDateTimeEdit" name="dateTimeEdit">
+              <widget class="QDateTimeEdit" name="dt_ad_gp_datetime">
                <property name="date">
                 <date>
                  <year>2023</year>
@@ -919,7 +946,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit"/>
+              <widget class="QLineEdit" name="le_ad_gp_jugador"/>
              </item>
              <item>
               <widget class="QLabel" name="label_22">
@@ -929,7 +956,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_4">
+              <widget class="QLineEdit" name="le_ad_gp_mensaje">
                <property name="text">
                 <string extracomment="&quot;gp&quot; por defecto">gp</string>
                </property>
@@ -959,7 +986,7 @@
               </spacer>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton">
+              <widget class="QPushButton" name="btn_ad_gp">
                <property name="styleSheet">
                 <string notr="true"/>
                </property>
@@ -978,7 +1005,7 @@
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_6">
              <item>
-              <widget class="QDateTimeEdit" name="dateTimeEdit_2">
+              <widget class="QDateTimeEdit" name="dt_ad_mbd_datetime">
                <property name="date">
                 <date>
                  <year>2023</year>
@@ -996,7 +1023,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_2"/>
+              <widget class="QLineEdit" name="le_ad_mbd_profeta"/>
              </item>
              <item>
               <widget class="QLabel" name="label_23">
@@ -1006,7 +1033,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_5"/>
+              <widget class="QLineEdit" name="le_ad_mbd_texto"/>
              </item>
              <item>
               <spacer name="verticalSpacer">
@@ -1022,7 +1049,7 @@
               </spacer>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_2">
+              <widget class="QPushButton" name="btn_ad_mbd">
                <property name="styleSheet">
                 <string notr="true"/>
                </property>
@@ -1041,7 +1068,7 @@
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_8">
              <item>
-              <widget class="QDateTimeEdit" name="dateTimeEdit_3">
+              <widget class="QDateTimeEdit" name="dt_ad_drg_datetime">
                <property name="date">
                 <date>
                  <year>2023</year>
@@ -1059,7 +1086,17 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_3"/>
+              <widget class="QLineEdit" name="le_ad_drg_profeta"/>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_6">
+               <property name="text">
+                <string>Texto del Drg</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="le_ad_drg_texto"/>
              </item>
              <item>
               <spacer name="verticalSpacer_4">
@@ -1075,7 +1112,7 @@
               </spacer>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_3">
+              <widget class="QPushButton" name="btn_ad_drg">
                <property name="styleSheet">
                 <string notr="true"/>
                </property>
@@ -1090,11 +1127,11 @@
           <item>
            <widget class="QGroupBox" name="groupBox_5">
             <property name="title">
-             <string>Faltas</string>
+             <string>Añadir faltas</string>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_11">
              <item>
-              <widget class="QDateTimeEdit" name="dateTimeEdit_4">
+              <widget class="QDateTimeEdit" name="dt_ad_faltas_datetime">
                <property name="date">
                 <date>
                  <year>2023</year>
@@ -1112,27 +1149,27 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_6"/>
+              <widget class="QLineEdit" name="le_ad_faltas_jugador"/>
              </item>
              <item>
               <widget class="QLabel" name="label_29">
                <property name="text">
-                <string>Tipo de falta (art. incumplido)</string>
+                <string>Tipo de falta (amarilla/roja)</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_10"/>
+              <widget class="QLineEdit" name="le_ad_faltas_tipo"/>
              </item>
              <item>
               <widget class="QLabel" name="label_30">
                <property name="text">
-                <string>Observaciones:</string>
+                <string>Motivo:</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_11"/>
+              <widget class="QLineEdit" name="le_ad_faltas_motivo"/>
              </item>
              <item>
               <spacer name="verticalSpacer_5">
@@ -1148,26 +1185,23 @@
               </spacer>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_5">
-               <property name="styleSheet">
-                <string notr="true">background-color : yellow;
-color: rgb(0, 0, 0);</string>
-               </property>
+              <widget class="QPushButton" name="btn_ad_falta">
                <property name="text">
-                <string>Enviar amarilla</string>
+                <string>Enviar falta</string>
                </property>
               </widget>
              </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="groupBox_4">
+            <property name="title">
+             <string>Consola</string>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_17">
              <item>
-              <widget class="QPushButton" name="pushButton_4">
-               <property name="styleSheet">
-                <string notr="true">background-color : red;
-color: rgb(255, 255, 255);</string>
-               </property>
-               <property name="text">
-                <string>Enviar roja</string>
-               </property>
-              </widget>
+              <widget class="QTextBrowser" name="log_window_ad"/>
              </item>
             </layout>
            </widget>
@@ -1196,6 +1230,75 @@ color: rgb(255, 255, 255);</string>
        <layout class="QVBoxLayout" name="verticalLayout_13">
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_21">
+          <item>
+           <widget class="QGroupBox" name="groupBox_15">
+            <property name="title">
+             <string>Rango</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_20">
+             <item>
+              <widget class="QLabel" name="label_9">
+               <property name="text">
+                <string>Selecciona el rango de fechas:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_32">
+               <item>
+                <widget class="QDateEdit" name="de_adt_start_date">
+                 <property name="date">
+                  <date>
+                   <year>2023</year>
+                   <month>1</month>
+                   <day>1</day>
+                  </date>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_40">
+                 <property name="text">
+                  <string>-</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QDateEdit" name="de_adt_end_date">
+                 <property name="date">
+                  <date>
+                   <year>2023</year>
+                   <month>1</month>
+                   <day>1</day>
+                  </date>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="chk_adt_all_range">
+               <property name="text">
+                <string>Todo</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
           <item>
            <widget class="QGroupBox" name="groupBox_6">
             <property name="title">
@@ -1285,19 +1388,6 @@ color: rgb(255, 255, 255);</string>
             </layout>
            </widget>
           </item>
-          <item>
-           <spacer name="horizontalSpacer">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
          </layout>
         </item>
         <item>
@@ -1338,7 +1428,7 @@ color: rgb(255, 255, 255);</string>
         <item>
          <widget class="QGroupBox" name="groupBox_10">
           <property name="title">
-           <string>Calculadora</string>
+           <string>Calculadora de GPV</string>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_22">
            <item>
@@ -1413,20 +1503,6 @@ color: rgb(255, 255, 255);</string>
                </property>
               </widget>
              </item>
-             <item>
-              <widget class="QLabel" name="label_36">
-               <property name="text">
-                <string>GPV:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="lbl_gpv_value">
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
             </layout>
            </item>
            <item>
@@ -1434,44 +1510,74 @@ color: rgb(255, 255, 255);</string>
              <item>
               <widget class="QLabel" name="label_37">
                <property name="text">
-                <string>PUNTUACIONES</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:11pt; font-weight:600;&quot;&gt;PUNTUACIONES&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QLabel" name="lbl_V1">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
                <property name="text">
-                <string>V1:</string>
+                <string>V1 Tiempo de respuesta:</string>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QLabel" name="lbl_V2">
                <property name="text">
-                <string>V2:</string>
+                <string>V2 Puesto: 100</string>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QLabel" name="lbl_V3">
                <property name="text">
-                <string>V3:</string>
+                <string>V3 Racha:</string>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QLabel" name="lbl_D1">
                <property name="text">
-                <string>D1:</string>
+                <string>D1 Dificultad tiempo M.B.D. - Drg:</string>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QLabel" name="lbl_D2">
                <property name="text">
-                <string>D2:</string>
+                <string>D2 Dificultad hora M.B.D.:</string>
                </property>
               </widget>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_33">
+               <item>
+                <widget class="QLabel" name="label_36">
+                 <property name="maximumSize">
+                  <size>
+                   <width>30</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;GPV:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="lbl_gpv_value">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </item>
              <item>
               <spacer name="verticalSpacer_7">
@@ -1625,7 +1731,7 @@ color: rgb(255, 255, 255);</string>
       </widget>
       <widget class="QWidget" name="tab_6">
        <attribute name="title">
-        <string>Enigmas</string>
+        <string>Exportar</string>
        </attribute>
       </widget>
       <widget class="QWidget" name="tab_4">
@@ -1662,7 +1768,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1049</width>
+     <width>1081</width>
      <height>26</height>
     </rect>
    </property>

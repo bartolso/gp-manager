@@ -146,9 +146,8 @@ D2 = {
 }
 
 # MULTIPLICADORES
-mV1 = 1
-mV2 = 1
-mV3 = 1
-mD1 = 1
-mD2 = 1
-
+mV1 = 10
+mV2 = 10
+mV3 = 20
+mD1 = 10
+mD2 = 10

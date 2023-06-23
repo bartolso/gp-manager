@@ -1,11 +1,11 @@
 # Buscar mensajes Drg
 import re
 import pandas as pd
-from datetime import date
+from datetime import datetime
 
 PROFETA = "Pablo"
 
-def read_txt(profeta):
+def read_txt(profeta, all_dates=True, start_date="", end_date=""):
     f = open("./chats/chat.txt", "r", encoding='utf-8')
 
     #Arreglar nombres
@@ -23,9 +23,21 @@ def read_txt(profeta):
     data = data.replace('- Joaquin:', '- Joaquín:')
     data = data.replace('- aitor:', '- Aitor:')
 
-    messages = re.findall(f'(\d+/\d+/\d+, \d+:\d+\d+) - ({profeta}): (drg$|Drg$)', data, re.MULTILINE)
+    messages = re.findall(f'(\d+/\d+/\d+, \d+:\d+\d+) - ({profeta}): (drg$|Drg$|drg 🙏$)', data, re.MULTILINE)
 
-    return messages
+    if all_dates:
+        return messages
+    else:
+        start_date = datetime.strptime(start_date, "%y/%m/%d").date()
+        end_date = datetime.strptime(end_date, "%y/%m/%d").date()
+
+        filtered_messages = []
+        for date_str, *rest in messages:
+            date = datetime.strptime(date_str, "%d/%m/%y, %H:%M").date()
+            if start_date <= date <= end_date:
+                filtered_messages.append((date_str, *rest))
+
+        return filtered_messages
 
 def make_dataframe():
     df = pd.DataFrame(read_txt(profeta="Pablo"),columns=['Time', 'Name', 'Message'])
@@ -62,4 +74,4 @@ def make_dataframe():
 df_mbd = make_dataframe()
 
 if __name__ == '__main__':
-    print(read_txt(profeta="Pablo"))
+    print(read_txt(profeta="Pablo", all_dates=False, start_date="23/1/1", end_date="23/1/2"))
